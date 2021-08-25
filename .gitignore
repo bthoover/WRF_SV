@@ -1,0 +1,7 @@
+ICs/
+util/calc_sv/run_wrf_tlm_adj.py_ORIG
+workspace/nonlin_trj/
+workspace/post_process/
+workspace/sv_pert/
+workspace/tlm_adj_sv/
+workspace/tlm_nlm_pert/
