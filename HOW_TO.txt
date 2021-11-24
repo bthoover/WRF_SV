@@ -1,0 +1,22 @@
+Hard-coded values that must be changed on each case:
+
+For nx = e_we (from namelist.input)
+For ny = e_sn (from namelist.input)
+For nz = e_vert (from namelist.input)
+
+For a norm in (u,v,T) space:
+
+N = (nz-1) * [(nx*(ny-1)) + ((nx-1)*ny) + ((nx-1)*(ny-1))]
+
+util/calc_sv/atx93_klm.f90: if (N.ne.XXXXXXX) <— change to N
+util/calc_sv/svectors.f: PARAMETER (MMATRIX = XXXXXXX) <— change to N
+util/post_process/read_vectors.f: parameter(N=XXXXXXX) <— change to N
+util/post_process/read_vectors.f: parameter(NJ=XX) <— change to # of solved SVs
+
+
+Steps:
+workspace/run_trj.csh <— Generates full nonlinear trajectory in workspace/nonlin_trj/
+workspace/stage_adj_tlm.csh <— Stages workspace/adj_tlm_sv/ with code and subdirectories for SV calculation
+workspace/adj_tlm_sv: nohup ./exec_run_svectors.sh >& exec_run_svectors.out & <— Computes SVs (takes a long time, best to use nohup and pipe output to a log-file)
+workspace/run_unpack_vector.sh <— Unpacks each SV (run separately for each J-value being unpacked)
+workspace/run_compute_SV_pert.sh <— Generates scaled perturbations from unpacked SVs (currently hard-wired to only operative on J=1 SV)
